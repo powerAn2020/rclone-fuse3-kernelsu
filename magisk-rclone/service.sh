@@ -20,9 +20,9 @@ until { [ "$(getprop sys.boot_completed)" = "1" ] && [ "$(getprop init.svc.boota
 done
 L "system is ready after ${COUNT}. Starting the mounting process."
 
-/vendor/bin/rclone listremotes | sed 's/:$//' | while read -r remote; do
+rclone listremotes | sed 's/:$//' | while read -r remote; do
   L "mount $remote => /mnt/rclone-$remote => /sdcard/$remote"
-  /vendor/bin/rclone-mount "$remote" --daemon
+  rclone-mount "$remote" --daemon
 done
 
 L "all remotes mounted successfully."

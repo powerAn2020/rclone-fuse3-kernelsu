@@ -1,2 +1,6 @@
+# 配置bin目录
 PATH=${PATH}:/data/adb/modules/rclone/bin
+# 绑定端口
 RCLONE_RC_ADDR="127.0.0.1:5572"
+# 设置静态UI资源
+RCLONE_RC_WEB_FETCH_URL="https://s3.yuudi.dev/rwa/embed/version.json"

@@ -16,7 +16,7 @@ sync_all() {
       echo "$line" | grep -qE '^\s*#' && continue
 
       read -r -a args <<< "$line"
-      nice -n 19 ionice -c3 /vendor/bin/rclone sync "${args[@]}" >> "$SYNC_LOG" 2>&1
+      nice -n 19 ionice -c3 rclone sync "${args[@]}" >> "$SYNC_LOG" 2>&1
       if [ $? -ne 0 ]; then
         echo "Error: rclone sync failed for arguments: ${args[*]}" >> "$SYNC_LOG"
       fi
@@ -34,7 +34,7 @@ sync_all() {
       echo "$line" | grep -qE '^\s*#' && continue
 
       read -r -a args <<< "$line"
-      nice -n 19 ionice -c3 /vendor/bin/rclone copy "${args[@]}" >> "$COPY_LOG" 2>&1
+      nice -n 19 ionice -c3 rclone copy "${args[@]}" >> "$COPY_LOG" 2>&1
       if [ $? -ne 0 ]; then
         echo "Error: rclone copy failed for arguments: ${args[*]}" >> "$COPY_LOG"
       fi

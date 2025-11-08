@@ -4,6 +4,12 @@ This Magisk module integrates Rclone with FUSE support into Android, allowing yo
 
 本 Magisk 模块将 Rclone（支持 FUSE 3.17.x）集成到 Android，实现远程存储的无缝挂载与自动化管理。包含服务脚本，可在开机和运行时自动管理 Rclone 任务。
 
+
+## 重要提示：如果开启本地加密方式在kernelsu的webUI中会提示`401 未授权访问`，解决方法是有两种
+1. 编辑webroot/index.html中的`document.location`内容为`http//:user:password@127.0.0.1:port/`
+2. 开启web进程，**无密码**登录，然后再连接中添加一个带密码的加密连接，同时删除原无密码的访问连接，然后重启web进程即可(推荐方式)
+
+
 ## Features / 功能
 
 - **FUSE Integration**: Mount remote storage as local directories using Rclone with FUSE 3.17.x. (通过 Rclone + FUSE 挂载远程存储为本地目录)

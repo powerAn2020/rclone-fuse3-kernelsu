@@ -37,3 +37,5 @@ RCLONE_RC_WEB_GUI_NO_OPEN_BROWSER=true
 # for more info https://rclone.org/docs/#environment-variables
 # override the config in `./conf/env`
 [ -f "${RCLONE_CONFIG_DIR}/env" ] && . "${RCLONE_CONFIG_DIR}/env"
+
+[ ! -d "${RCLONE_LOG_DIR}" ] && mkdir -p "${RCLONE_LOG_DIR}"

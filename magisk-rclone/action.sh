@@ -10,14 +10,14 @@ current_time=$(date +"%I:%M %P")
 # 检查并停止正在运行的 RClone Web 进程
 function check_stop_web_pid() {
   if [ -f "$RCLONEWEB_PID" ]; then
-    PID=$(cat "$RCLONEWEB_PID")
-    if ps -p "$PID" > /dev/null 2>&1; then
+    PID=$(pgrep -f "rclone-web")
+    if [ ! -z ${PID} ]; then
       echo "RClone Web GUI is already running with PID($PID). Stopping it..."
       pkill -P $PID
       rm -f "$RCLONEWEB_PID"
       echo "RClone Web GUI stopped successfully."
       echo "已成功关闭 RClone Web GUI"
-      sed -Ei "s/^description=(\[.*][[:space:]]*)?/description=[ $current_time | status:❌ ] /g" $MODDIR/module.prop
+      sed -Ei "s/^description=(\[.*][[:space:]]*)?/description=[ $current_time | status:❌ ] /g" $MODPATH/module.prop
       return 1
     else
       echo "Found a stale PID file. Removing it..."
@@ -36,7 +36,7 @@ function start_web() {
   else
     URL="http://${RCLONE_RC_ADDR}"
   fi
-  sed -i "s/\(document\.location = \)'[^']*'/\1'$URL'/g" ${RCLONEDIR}/webroot/index.html
+  sed -i "s|document.location = '[^']*'|document.location = '$URL'|" ${RCLONEDIR}/webroot/index.html
   set -e
   echo "RClone Web GUI will start at: ${URL}"
   echo "Open the following URL in your browser to access the web GUI:"
@@ -45,9 +45,9 @@ function start_web() {
   pgrep -f "rclone-web" > "$RCLONEWEB_PID"
   # PID=$!
   # echo "$PID" > "$RCLONEWEB_PID"
-  echo "RClone Web GUI started with PID($PID)."
+  echo "RClone Web GUI started with PID($(cat $RCLONEWEB_PID)))."
   echo "网页已启动 $URL"
-  sed -Ei "s/^description=(\[.*][[:space:]]*)?/description=[ $current_time | status:✅ ] /g" $MODDIR/module.prop
+  sed -Ei "s/^description=(\[.*][[:space:]]*)?/description=[ $current_time | status:✅ ] /g" $MODPATH/module.prop
 }
 
 if check_stop_web_pid; then

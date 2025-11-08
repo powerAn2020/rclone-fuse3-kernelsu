@@ -4,8 +4,8 @@ MODPATH=${MODPATH:-0%/*}
 
 set_permissions() {
   set_perm_recursive $MODPATH 0 0 0755 0644
-  chmod +x $MODPATH/system/vendor/bin/*
-  set_perm_recursive $MODPATH/system/vendor/bin/ 0 0 0755 0755
+  chmod +x $MODPATH/bin/*
+  set_perm_recursive $MODPATH/bin/ 0 0 0755 0755
   chmod +x $MODPATH/sync.service.sh
 }
 

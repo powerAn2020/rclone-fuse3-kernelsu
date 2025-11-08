@@ -29,8 +29,10 @@ function check_stop_web_pid() {
 function start_web() {
   # 构建 RClone Web GUI 的访问 URL
   if [[ "${RCLONE_RC_ADDR}" == :* ]]; then
-    LOCAL_IP=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
+    # LOCAL_IP=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
     URL="http://${LOCAL_IP:-localhost}${RCLONE_RC_ADDR}"
+    # 替换启动URL
+    sed -i "s/\(document\.location = \)'[^']*'/\1'$URL'/g" ${RCLONEDIR}/webroot/index.html
   else
     URL=${RCLONE_RC_ADDR}
   fi
